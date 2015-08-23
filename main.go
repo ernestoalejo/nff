@@ -143,17 +143,21 @@ func request(req *Request) error {
 							if !Ignored[u.Scheme] {
 								log.Printf("ignoring link with unknown scheme <%s>\n", u.Scheme)
 							}
+							
 							Ignored[u.Scheme] = true
 						} else if u.Host != base.Host {
 							if !Ignored[u.Host] {
 								log.Printf("ignoring link with external host <%s>\n", u.Host)
 							}
+							
 							Ignored[u.Host] = true
 						} else if !Visited[u.Path] {
 							Requests = append(Requests, &Request{
 								URL: base.String(),
 								From: req.URL,
-							})	
+							})
+							
+							Visited[u.Path] = true
 						}
 					} else {
 						resolved := base.ResolveReference(u)
@@ -162,6 +166,8 @@ func request(req *Request) error {
 								URL: resolved.String(),
 								From: req.URL,
 							})
+
+							Visited[resolved.Path] = true
 						}
 					}
 
