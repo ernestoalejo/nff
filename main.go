@@ -74,6 +74,7 @@ func run() error {
 
 func requester() error {
 	for i := 0; i < len(Requests); i++ {
+		log.Printf("request [%d / %d]: <%s>\n", i, len(Requests), Requests[i].URL)
 		if err := request(Requests[i]); err != nil {
 			return errors.Trace(err)
 		}
@@ -85,7 +86,6 @@ func requester() error {
 }
 
 func request(req *Request) error {
-	log.Printf("request: <%s>\n", req.URL)
 
 	client := &http.Client{}
 	resp, err := client.Get(req.URL)
@@ -114,7 +114,7 @@ func request(req *Request) error {
 		return errors.Trace(err)
 	}
 
-	log.Printf("process <%s>\n", req.URL)
+	log.Println("process response")
 
 	doc, err := html.Parse(bytes.NewReader(content))
 	if err != nil {
