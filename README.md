@@ -7,7 +7,7 @@
 ## Install
 
 ```shell
-go install github.com/ernestoalejo/nff
+go get github.com/ernestoalejo/nff
 ```
 
 
